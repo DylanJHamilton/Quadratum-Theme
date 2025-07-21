@@ -1,1 +1,1 @@
-console.log('Momentum Theme Loaded');
+console.log('Quadratum Theme Loaded');
