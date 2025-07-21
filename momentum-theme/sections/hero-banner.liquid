@@ -1,0 +1,42 @@
+<div class="hero-banner" style="background-image:url({{ section.settings.background_image | image_url }});">
+  {% for block in section.blocks %}
+    {% case block.type %}
+      {% when 'heading' %}
+        <h1>{{ block.settings.text }}</h1>
+      {% when 'button' %}
+        <a href="{{ block.settings.link }}" class="btn">{{ block.settings.label }}</a>
+    {% endcase %}
+  {% endfor %}
+</div>
+{% schema %}
+{
+  "name": "Hero Banner",
+  "settings": [
+    { "type": "image_picker", "id": "background_image", "label": "Background Image" }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Heading Text" }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Button Label" },
+        { "type": "url", "id": "link", "label": "Button Link" }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "default": {
+    "blocks": [
+      { "type": "heading", "settings": { "text": "Welcome to Momentum!" } },
+      { "type": "button", "settings": { "label": "Shop Now", "link": "/collections/all" } }
+    ]
+  }
+}
+{% endschema %}
