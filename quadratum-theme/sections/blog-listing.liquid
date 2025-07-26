@@ -20,10 +20,17 @@
     <div class="blog-listing__grid" style="--bl-cols-desktop: {{ section.settings.posts_per_row }}; --bl-cols-mobile: 1;">
       {%- for article in blog_obj.articles limit: section.settings.posts_count -%}
         <article class="blog-listing__item">
-          {%- if article.image != blank -%}
-            <a href="{{ article.url }}" class="blog-listing__image-link">
-              {{ article.image | image_url: width: 600 | image_tag: class: 'blog-listing__image', loading: 'lazy', sizes: '(min-width: 768px) calc(100vw / {{ section.settings.posts_per_row }}), 100vw', alt: article.title }}
-            </a>
+        {%- if article.image != blank -%}
+                  <a href="{{ article.url }}" class="blog-listing__image-link">
+                    {{ article.image 
+                      | image_url: width: 600 
+                      | image_tag: 
+                        class: "blog-listing__image", 
+                        loading: "lazy", 
+                        sizes: "(min-width: 768px) calc(100vw / " | append: section.settings.posts_per_row | append: "), 100vw", 
+                        alt: article.title 
+                    }}
+                  </a>
           {%- endif -%}
           <div class="blog-listing__content">
             <h3 class="blog-listing__title"><a href="{{ article.url }}">{{ article.title }}</a></h3>
@@ -131,8 +138,7 @@
     {
       "type": "blog",
       "id": "blog",
-      "label": "Blog",
-      "default": "news"
+      "label": "Blog"
     },
     {
       "type": "range",

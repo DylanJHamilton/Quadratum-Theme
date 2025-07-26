@@ -8,35 +8,66 @@
     {% endcase %}
   {% endfor %}
 </div>
+
 {% schema %}
 {
   "name": "Hero Banner",
   "settings": [
-    { "type": "image_picker", "id": "background_image", "label": "Background Image" }
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    }
   ],
   "blocks": [
     {
       "type": "heading",
       "name": "Heading",
       "settings": [
-        { "type": "text", "id": "text", "label": "Heading Text" }
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Heading Text"
+        }
       ]
     },
     {
       "type": "button",
       "name": "Button",
       "settings": [
-        { "type": "text", "id": "label", "label": "Button Label" },
-        { "type": "url", "id": "link", "label": "Button Link" }
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Button Label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Button Link"
+        }
       ]
     }
   ],
   "max_blocks": 3,
-  "default": {
-    "blocks": [
-      { "type": "heading", "settings": { "text": "Welcome to Momentum!" } },
-      { "type": "button", "settings": { "label": "Shop Now", "link": "/collections/all" } }
-    ]
-  }
+"default": {
+  "settings": {
+    "background_image": ""
+  },
+  "blocks": [
+    {
+      "type": "heading",
+      "settings": {
+        "text": "Welcome to Momentum!"
+      }
+    },
+    {
+      "type": "button",
+      "settings": {
+        "label": "Shop Now",
+        "link": "/collections/all"
+      }
+    }
+  ]
+}
 }
 {% endschema %}
