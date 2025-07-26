@@ -1,0 +1,392 @@
+{%- comment -%}
+  Testimonial Slider Section
+  This section outputs a list of testimonial blocks in either a scrolling
+  carousel or a responsive grid.  A variety of settings control the
+  appearance and behaviour of the component.  Autoplay, slide counts
+  and layout type are all configurable by the merchant.  The slider
+  functionality is implemented with a small amount of vanilla
+  JavaScript and CSS scroll snapping.  Ratings are rendered using
+  unicode stars and properly labelled for assistive technologies.
+{%- endcomment -%}
+
+<div id="testimonial-slider-{{ section.id }}"
+     class="testimonial-slider"
+     style="--ts-bg: {{ section.settings.background_color }}; --ts-star-color: {{ section.settings.star_color }};"
+     role="region"
+     aria-roledescription="carousel"
+     aria-label="Testimonials section">
+  {%- if section.settings.heading != blank -%}
+    <h2 class="testimonial-slider__heading">{{ section.settings.heading }}</h2>
+  {%- endif -%}
+
+{%- assign layout = section.settings.layout -%}
+{%- assign nav_style = section.settings.navigation -%}
+
+  <div class="testimonial-slider__container {{ layout | handleize }}"
+       style="--ts-slides-mobile: {{ section.settings.slides_per_view_mobile }}; --ts-slides-desktop: {{ section.settings.slides_per_view_desktop }};"
+       tabindex="0">
+    {%- for block in section.blocks -%}
+      <div class="testimonial-slider__slide" id="{{ section.id }}-slide-{{ forloop.index }}" {{ block.shopify_attributes }} role="group" aria-roledescription="slide" aria-label="Slide {{ forloop.index }} of {{ section.blocks.size }}">
+        <div class="testimonial-slider__content">
+          {%- if block.settings.image != blank -%}
+            <div class="testimonial-slider__avatar">
+              {{ block.settings.image | image_url: width: 120 | image_tag: class: 'testimonial-slider__avatar-img', loading: 'lazy', sizes: '60px', alt: block.settings.name }}
+            </div>
+          {%- endif -%}
+          {%- if block.settings.rating != blank and block.settings.rating > 0 -%}
+            <div class="testimonial-slider__rating" aria-label="Rating: {{ block.settings.rating }} out of 5">
+              {%- for i in (1..5) -%}
+                {%- if i <= block.settings.rating -%}
+                  <span class="testimonial-slider__star testimonial-slider__star--filled" aria-hidden="true">★</span>
+                {%- else -%}
+                  <span class="testimonial-slider__star" aria-hidden="true">☆</span>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+          {%- if block.settings.quote != blank -%}
+            <blockquote class="testimonial-slider__quote">{{ block.settings.quote }}</blockquote>
+          {%- endif -%}
+          {%- if block.settings.name != blank -%}
+            <p class="testimonial-slider__name">{{ block.settings.name }}</p>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+
+  {%- if layout == 'carousel' and section.blocks.size > 1 -%}
+    {%- if nav_style == 'arrows' or nav_style == 'both' -%}
+      <div class="testimonial-slider__controls">
+        <button type="button" class="testimonial-slider__prev" aria-label="Previous slide" aria-controls="testimonial-slider-{{ section.id }}">&#9664;</button>
+        <button type="button" class="testimonial-slider__next" aria-label="Next slide" aria-controls="testimonial-slider-{{ section.id }}">&#9654;</button>
+      </div>
+    {%- endif -%}
+    {%- if nav_style == 'dots' or nav_style == 'both' -%}
+      <div class="testimonial-slider__dots" role="tablist">
+        {%- for i in (1..section.blocks.size) -%}
+          <button type="button" class="testimonial-slider__dot" role="tab" aria-label="Go to slide {{ i }}" aria-controls="{{ section.id }}-slide-{{ i }}" data-index="{{ i | minus: 1 }}"></button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+
+  <style>
+    .testimonial-slider {
+      background-color: var(--ts-bg);
+      padding: 2rem 1rem;
+      position: relative;
+    }
+    .testimonial-slider__heading {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .testimonial-slider__container {
+      display: flex;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      scroll-snap-type: x mandatory;
+    }
+    .testimonial-slider__container.carousel {
+      -webkit-overflow-scrolling: touch;
+    }
+    .testimonial-slider__container.grid {
+      display: grid;
+      gap: 1rem;
+    }
+    .testimonial-slider__slide {
+      flex: 0 0 calc(100% / var(--ts-slides-mobile));
+      scroll-snap-align: start;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+    .testimonial-slider__container.grid .testimonial-slider__slide {
+      flex: 1 1 auto;
+      width: auto;
+    }
+    @media (min-width: 768px) {
+      .testimonial-slider__slide {
+        flex: 0 0 calc(100% / var(--ts-slides-desktop));
+      }
+      .testimonial-slider__container.grid {
+        grid-template-columns: repeat(var(--ts-slides-desktop), 1fr);
+      }
+    }
+    .testimonial-slider__avatar {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 0.5rem;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+    .testimonial-slider__avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    .testimonial-slider__rating {
+      text-align: center;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+      color: var(--ts-star-color);
+    }
+    .testimonial-slider__star {
+      font-size: 1rem;
+      color: #ccc;
+      margin: 0 1px;
+    }
+    .testimonial-slider__star--filled {
+      color: var(--ts-star-color);
+    }
+    .testimonial-slider__quote {
+      font-style: italic;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    .testimonial-slider__name {
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 0;
+    }
+    .testimonial-slider__controls {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .testimonial-slider__controls button {
+      background: none;
+      border: 1px solid currentColor;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .testimonial-slider__controls button:focus {
+      outline: 2px solid currentColor;
+      outline-offset: 2px;
+    }
+    /* Dots navigation */
+    .testimonial-slider__dots {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+      gap: 0.5rem;
+    }
+    .testimonial-slider__dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 1px solid currentColor;
+      background-color: transparent;
+      padding: 0;
+      cursor: pointer;
+    }
+    .testimonial-slider__dot[aria-selected="true"] {
+      background-color: currentColor;
+    }
+  </style>
+
+  <script>
+    (function() {
+      const sectionId = '{{ section.id }}';
+      const container = document.querySelector(`#testimonial-slider-${sectionId} .testimonial-slider__container`);
+      if (!container) return;
+      const prevBtn = document.querySelector(`#testimonial-slider-${sectionId} .testimonial-slider__prev`);
+      const nextBtn = document.querySelector(`#testimonial-slider-${sectionId} .testimonial-slider__next`);
+      const dots = document.querySelectorAll(`#testimonial-slider-${sectionId} .testimonial-slider__dot`);
+      const autoplay = {{ section.settings.autoplay | json }};
+      const slidesDesktop = parseInt(container.style.getPropertyValue('--ts-slides-desktop')) || {{ section.settings.slides_per_view_desktop }};
+      const slidesMobile = parseInt(container.style.getPropertyValue('--ts-slides-mobile')) || {{ section.settings.slides_per_view_mobile }};
+      function getSlidesPerView() {
+        return window.innerWidth >= 768 ? slidesDesktop : slidesMobile;
+      }
+      function slideBy(dir) {
+        const perView = getSlidesPerView();
+        const slideWidth = container.clientWidth / perView;
+        container.scrollBy({ left: slideWidth * dir, behavior: 'smooth' });
+      }
+      function goToSlide(index) {
+        const perView = getSlidesPerView();
+        const slideWidth = container.clientWidth / perView;
+        container.scrollTo({ left: slideWidth * index, behavior: 'smooth' });
+      }
+      function updateDots() {
+        if (!dots || dots.length === 0) return;
+        const perView = getSlidesPerView();
+        const slideWidth = container.clientWidth / perView;
+        const idx = Math.round(container.scrollLeft / slideWidth);
+        dots.forEach(function(dot, i) {
+          dot.setAttribute('aria-selected', i === idx ? 'true' : 'false');
+        });
+      }
+      if (prevBtn) {
+        prevBtn.addEventListener('click', function() { slideBy(-1); });
+      }
+      if (nextBtn) {
+        nextBtn.addEventListener('click', function() { slideBy(1); });
+      }
+      if (dots && dots.length) {
+        dots.forEach(function(dot) {
+          dot.addEventListener('click', function() {
+            const index = parseInt(this.getAttribute('data-index')) || 0;
+            goToSlide(index);
+          });
+        });
+        // Initialise active state on dots
+        updateDots();
+        container.addEventListener('scroll', function() {
+          // Throttle update with requestAnimationFrame
+          window.requestAnimationFrame(updateDots);
+        });
+      }
+      container.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowLeft') { event.preventDefault(); slideBy(-1); }
+        if (event.key === 'ArrowRight') { event.preventDefault(); slideBy(1); }
+      });
+      let autoInterval;
+      function startAutoplay() {
+        autoInterval = setInterval(function() { slideBy(1); }, 5000);
+      }
+      function stopAutoplay() {
+        clearInterval(autoInterval);
+      }
+      if (autoplay) {
+        startAutoplay();
+        container.addEventListener('mouseenter', stopAutoplay);
+        container.addEventListener('mouseleave', startAutoplay);
+        if (prevBtn) prevBtn.addEventListener('focus', stopAutoplay);
+        if (nextBtn) nextBtn.addEventListener('focus', stopAutoplay);
+      }
+    })();
+  </script>
+
+{% schema %}
+{
+  "name": "Testimonial Slider",
+  "tag": "section",
+  "class": "section section--testimonial-slider",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What our customers say"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout type",
+      "default": "carousel",
+      "options": [
+        { "value": "carousel", "label": "Carousel" },
+        { "value": "grid", "label": "Grid" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "slides_per_view_mobile",
+      "label": "Slides per view (mobile)",
+      "min": 1,
+      "max": 2,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "slides_per_view_desktop",
+      "label": "Slides per view (desktop)",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Enable autoplay",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#F9F9F9"
+    },
+    {
+      "type": "select",
+      "id": "navigation",
+      "label": "Navigation style",
+      "default": "arrows",
+      "options": [
+        { "value": "arrows", "label": "Arrows" },
+        { "value": "dots", "label": "Dots" },
+        { "value": "both", "label": "Arrows & dots" },
+        { "value": "none", "label": "None" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star colour",
+      "default": "#f0b400"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Avatar"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Jane Doe"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Testimonial text",
+          "default": "I love this product! It's changed the way I work."
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Star rating",
+          "min": 0,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Testimonial slider",
+      "category": "Testimonials",
+      "settings": {
+        "heading": "Testimonials",
+        "layout": "carousel",
+        "slides_per_view_mobile": 1,
+        "slides_per_view_desktop": 2,
+        "autoplay": false,
+        "background_color": "#F9F9F9",
+        "navigation": "arrows",
+        "star_color": "#f0b400"
+      },
+      "blocks": [
+        { "type": "testimonial" },
+        { "type": "testimonial" },
+        { "type": "testimonial" }
+      ]
+    }
+  ]
+}
+{% endschema %}

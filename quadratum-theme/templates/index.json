@@ -1,6 +1,55 @@
 {
   "sections": {
-    "main": { "type": "hero-banner" }
+    "main": {
+      "type": "hero-banner",
+      "settings": {
+        "heading": "Welcome to Quadratum",
+        "subheading": "Your premium Shopify theme",
+        "background_image": "",
+        "cta_label": "Shop Now",
+        "cta_link": "/collections/all"
+      }
+    },
+    "testimonial": {
+      "type": "testimonial-slider",
+      "settings": {
+        "heading": "What Our Customers Say",
+        "layout": "carousel",
+        "slides_per_view_mobile": 1,
+        "slides_per_view_desktop": 2,
+        "autoplay": false,
+        "background_color": "#F9F9F9",
+        "navigation": "both",
+        "star_color": "#f0b400"
+      }
+    },
+    "faq": {
+      "type": "faq-accordion",
+      "settings": {
+        "heading": "Frequently Asked Questions",
+        "style": "accordion",
+        "open_first": false,
+        "background_color": "#ffffff",
+        "text_color": "#333333"
+      }
+    },
+    "blog": {
+      "type": "blog-listing",
+      "settings": {
+        "heading": "From Our Blog",
+        "blog": "news",
+        "posts_per_row": 3,
+        "post_limit": 3,
+        "show_author": true,
+        "show_date": true,
+        "show_excerpt": true
+      }
+    }
   },
-  "order": ["main"]
+  "order": [
+    "main",
+    "testimonial",
+    "faq",
+    "blog"
+  ]
 }
