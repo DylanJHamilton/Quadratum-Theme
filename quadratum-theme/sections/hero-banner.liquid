@@ -1,4 +1,4 @@
-<div class="hero-banner" style="background-image:url({{ section.settings.background_image | image_url }});">
+<div class="hero-banner"{% if section.settings.background_image %} style="background-image:url({{ section.settings.background_image | image_url }});"{% endif %}>
   {% for block in section.blocks %}
     {% case block.type %}
       {% when 'heading' %}
@@ -49,6 +49,7 @@
     }
   ],
   "max_blocks": 3,
+<<<<<<< HEAD
 "default": {
   "settings": {
     "background_image": ""
@@ -71,3 +72,13 @@
 }
 }
 {% endschema %}
+=======
+    "default": {
+      "blocks": [
+        { "type": "heading", "settings": { "text": "Welcome to Quadratum!" } },
+        { "type": "button", "settings": { "label": "Shop Now", "link": "/collections/all" } }
+      ]
+    }
+  }
+  {% endschema %}
+>>>>>>> main
