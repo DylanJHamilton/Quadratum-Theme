@@ -3,103 +3,15 @@
     "main": {
       "type": "hero-banner",
       "settings": {
-        "heading": "Welcome to Quadratum",
-        "subheading": "Your premium Shopify theme",
-        "background_image": "https://cdn.shopify.com/s/files/1/0645/6495/3172/files/theme_cover_image.jpg",
-        "cta_label": "Shop Now",
-        "cta_link": "/collections/all"
-      }
-    },
-    "testimonial": {
-      "type": "testimonial-slider",
-      "settings": {
-        "heading": "What Our Customers Say",
-        "layout": "carousel",
-        "slides_per_view_mobile": 1,
-        "slides_per_view_desktop": 2,
-        "autoplay": false,
-        "background_color": "#F9F9F9",
-        "navigation": "both",
-        "star_color": "#f0b400",
-        "testimonials": [
-          {
-            "author": "Emily R.",
-            "text": "Amazing quality and fast shipping!",
-            "rating": 5,
-            "image": "https://via.placeholder.com/100x100"
-          },
-          {
-            "author": "Michael T.",
-            "text": "Customer service was very helpful.",
-            "rating": 4,
-            "image": "https://via.placeholder.com/100x100"
-          }
-        ]
-      }
-    },
-    "faq": {
-      "type": "faq-accordion",
-      "settings": {
-        "heading": "Frequently Asked Questions",
-        "style": "accordion",
-        "open_first": false,
-        "background_color": "#ffffff",
-        "text_color": "#333333",
-        "faqs": [
-          {
-            "question": "What is your return policy?",
-            "answer": "We accept returns within 30 days of purchase."
-          },
-          {
-            "question": "Do you ship internationally?",
-            "answer": "Yes, we ship to most countries worldwide."
-          }
-        ]
-      }
-    },
-    "blog": {
-      "type": "blog-listing",
-      "settings": {
-        "heading": "From Our Blog",
-        "blog": "news",
-        "posts_per_row": 3,
-        "posts_count": 3,
-        "show_author": true,
-        "show_date": true,
-        "show_excerpt": true,
-        "articles": [
-          {
-            "title": "Welcome to Our Store",
-            "url": "/blogs/news/welcome-to-our-store",
-            "author": "Jane Doe",
-            "published_at": "2025-07-01",
-            "excerpt": "Discover our latest products and updates in this welcome post.",
-            "image": "https://via.placeholder.com/600x400"
-          },
-          {
-            "title": "Summer Collection Launch",
-            "url": "/blogs/news/summer-collection-launch",
-            "author": "John Smith",
-            "published_at": "2025-07-10",
-            "excerpt": "Check out our new summer collection, perfect for the season.",
-            "image": "https://via.placeholder.com/600x400"
-          },
-          {
-            "title": "Customer Favorites",
-            "url": "/blogs/news/customer-favorites",
-            "author": "Alex Lee",
-            "published_at": "2025-07-15",
-            "excerpt": "See what our customers are loving this month.",
-            "image": "https://via.placeholder.com/600x400"
-          }
-        ]
+        "heading": "Welcome to the Playground",
+        "subheading": "This is your Quadratum base template",
+        "background_image_url": "https://quadratum-theme.myshopify.com/cdn/shop/files/banner-test.png?v=1755187610&width=2000",
+        "cta_label": "Vdisit Playground",
+        "cta_link": "/pages/playground"
       }
     }
   },
   "order": [
-    "main",
-    "testimonial",
-    "faq",
-    "blog"
+    "main"
   ]
 }

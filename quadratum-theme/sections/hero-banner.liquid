@@ -1,84 +1,60 @@
-<div class="hero-banner"{% if section.settings.background_image %} style="background-image:url({{ section.settings.background_image | image_url }});"{% endif %}>
-  {% for block in section.blocks %}
-    {% case block.type %}
-      {% when 'heading' %}
-        <h1>{{ block.settings.text }}</h1>
-      {% when 'button' %}
-        <a href="{{ block.settings.link }}" class="btn">{{ block.settings.label }}</a>
-    {% endcase %}
-  {% endfor %}
-</div>
+<section class="hero-banner" style="background-image:url({{ section.settings.background_image_url }}); background-size:cover; padding:4rem 2rem; text-align:center; color:white;">
+  <div class="hero-content" style="max-width:800px; margin:0 auto;">
+    {% if section.settings.heading %}
+      <h1 style="font-size:2.5rem;">{{ section.settings.heading }}</h1>
+    {% endif %}
+    
+    {% if section.settings.subheading %}
+      <p style="font-size:1.25rem; margin:1rem 0;">{{ section.settings.subheading }}</p>
+    {% endif %}
+
+    {% if section.settings.cta_link and section.settings.cta_label %}
+      <a href="{{ section.settings.cta_link }}" class="btn" style="display:inline-block; margin-top:1.5rem; background:black; color:white; padding:0.75rem 1.5rem; border-radius:4px; text-decoration:none;">
+        {{ section.settings.cta_label }}
+      </a>
+    {% else %}
+      <p style="color:red;">Missing CTA values</p>
+    {% endif %}
+  </div>
+</section>
 
 {% schema %}
 {
   "name": "Hero Banner",
   "settings": [
     {
-      "type": "image_picker",
-      "id": "background_image",
-      "label": "Background Image"
-    }
-  ],
-  "blocks": [
-    {
-      "type": "heading",
-      "name": "Heading",
-      "settings": [
-        {
-          "type": "text",
-          "id": "text",
-          "label": "Heading Text"
-        }
-      ]
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Welcome to the Playground"
     },
     {
-      "type": "button",
-      "name": "Button",
-      "settings": [
-        {
-          "type": "text",
-          "id": "label",
-          "label": "Button Label"
-        },
-        {
-          "type": "url",
-          "id": "link",
-          "label": "Button Link"
-        }
-      ]
-    }
-  ],
-  "max_blocks": 3,
-<<<<<<< HEAD
-"default": {
-  "settings": {
-    "background_image": ""
-  },
-  "blocks": [
-    {
-      "type": "heading",
-      "settings": {
-        "text": "Welcome to Momentum!"
-      }
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "This is your Quadratum base template"
     },
     {
-      "type": "button",
-      "settings": {
-        "label": "Shop Now",
-        "link": "/collections/all"
-      }
+      "type": "text",
+      "id": "background_image_url",
+      "label": "Background Image URL"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA Button Text",
+      "default": "Visit Playground"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner"
     }
   ]
 }
-}
 {% endschema %}
-=======
-    "default": {
-      "blocks": [
-        { "type": "heading", "settings": { "text": "Welcome to Quadratum!" } },
-        { "type": "button", "settings": { "label": "Shop Now", "link": "/collections/all" } }
-      ]
-    }
-  }
-  {% endschema %}
->>>>>>> main
